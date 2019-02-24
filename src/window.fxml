@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.WindowController">
+   <children>
+      <VBox prefHeight="320.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="80.0">
+         <children>
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#studentView" prefHeight="40.0" prefWidth="100.0" text="Student" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#staffView" prefHeight="40.0" prefWidth="100.0" text="Staff" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#timetableView" prefHeight="40.0" prefWidth="100.0" text="Timetables" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#personalTutorView" prefHeight="40.0" prefWidth="100.0" text="Personal Tutors" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#gradesView" prefHeight="40.0" prefWidth="100.0" text="Grades" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#attendanceView" prefHeight="40.0" prefWidth="100.0" text="Attendance" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#modulesView" prefHeight="40.0" prefWidth="100.0" text="Modules" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#assignmentView" prefHeight="40.0" prefWidth="100.0" text="Assignments" />
+         </children>
+      </VBox>
+      <ImageView fitHeight="80.0" fitWidth="100.0" layoutX="1.0" pickOnBounds="true" AnchorPane.bottomAnchor="320.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@images/Logo.PNG" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="displayPane" layoutX="100.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="77.0" layoutY="73.0" text="Welcome to Woodlands University's Record Management System" AnchorPane.bottomAnchor="310.0" AnchorPane.topAnchor="73.0" />
+            <Label layoutX="112.0" layoutY="129.0" text="To begin, select an option from the menu on the left" AnchorPane.bottomAnchor="254.0" AnchorPane.topAnchor="129.0" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="172.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="50.0" AnchorPane.topAnchor="200.0">
+               <image>
+                  <Image url="@images/Logo.PNG" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

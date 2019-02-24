@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.StudentController">
+   <children>
+      <AnchorPane layoutX="78.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" prefWidth="200.0" AnchorPane.bottomAnchor="320.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="180.0" layoutY="26.0" prefHeight="28.0" prefWidth="120.0" text="Search for Student:" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="26.0" />
+            <TextField layoutX="300.0" layoutY="28.0" promptText="Enter student name / ID" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="28.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="14.0" layoutY="194.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <children>
+            <ImageView fitHeight="103.0" fitWidth="120.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="466.0" AnchorPane.topAnchor="14.0">
+               <image>
+                  <Image url="@images/Logo.PNG" />
+               </image>
+            </ImageView>
+            <Label layoutX="173.0" layoutY="14.0" prefHeight="17.0" prefWidth="207.0" text="Name: Firstname Surname" AnchorPane.bottomAnchor="289.0" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="14.0" />
+            <Label layoutX="173.0" layoutY="31.0" prefHeight="17.0" prefWidth="207.0" text="Student ID: 12345678" AnchorPane.bottomAnchor="272.0" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="31.0" />
+            <Label layoutX="466.0" layoutY="14.0" prefHeight="17.0" prefWidth="120.0" text="Status: Lorem Ipsum" AnchorPane.bottomAnchor="289.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+            <Label layoutX="466.0" layoutY="31.0" prefHeight="101.0" prefWidth="120.0" text="Reason: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore." wrapText="true" AnchorPane.bottomAnchor="186.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="31.0" />
+            <TabPane layoutX="2.0" layoutY="134.0" prefHeight="185.0" prefWidth="600.0" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="135.0">
+              <tabs>
+                <Tab text="Address">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+                <Tab text="Contact Details">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+                  <Tab text="Course">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                  <Tab text="Qualifications">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+                  <Tab text="Attendance">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
