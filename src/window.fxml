@@ -17,7 +17,7 @@
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#personalTutorView" prefHeight="40.0" prefWidth="100.0" text="Personal Tutors" />
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#gradesView" prefHeight="40.0" prefWidth="100.0" text="Grades" />
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#attendanceView" prefHeight="40.0" prefWidth="100.0" text="Attendance" />
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#modulesView" prefHeight="40.0" prefWidth="100.0" text="Modules" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#modulesView" prefHeight="40.0" prefWidth="100.0" text="Courses" />
             <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#assignmentView" prefHeight="40.0" prefWidth="100.0" text="Assignments" />
          </children>
       </VBox>
