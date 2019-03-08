@@ -29,6 +29,7 @@ public class StudentController {
 	public ResultSet rssCour;
 	public ResultSet rssQua;
 	public ResultSet rssAtt;
+	public Statement stmt;
 	
 	@FXML
 	public Label stuName;
@@ -48,24 +49,9 @@ public class StudentController {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://v.je:3306/groupProjectY2", "student", "student");
 			Statement stmt = con.createStatement();
-			
+			this.stmt = stmt;
 			ResultSet rs=stmt.executeQuery("SELECT * FROM student_records");
-			while (rs.next()) {
-				ResultSet rs2 = stmt.executeQuery("SELECT * FROM contact_address WHERE address_id ="+ rs.getString(7) +"LIMIT 1");
-				this.rssCon = rs2;
-			}
-			while (rs.next()) {
-				ResultSet rs2 = stmt.executeQuery("SELECT * FROM courses WHERE course_code ="+ rs.getString(10));
-				this.rssCour = rs2;
-			}
-			while (rs.next()) {
-				ResultSet rs2 = stmt.executeQuery("SELECT * FROM qualifications WHERE student_id ="+ rs.getInt(1));
-				this.rssQua = rs2;
-			}
-			while (rs.next()) {
-				ResultSet rs2 = stmt.executeQuery("SELECT * FROM attendence WHERE student_id ="+ rs.getInt(1));
-				this.rssAtt = rs2;
-			}
+			
 			this.rss = rs;
 		}catch(Exception e) {System.out.print(e);}
 	}
@@ -75,20 +61,29 @@ public class StudentController {
 		try {
 			while (rss.next()) {
 				if (rss.getInt(2)== search) {
+					
 					stuName.setText("Name:"+rss.getString(4)+rss.getString(5)+rss.getString(6));
 					stuID.setText("ID:"+rss.getInt(1));
 					stuStatus.setText("Status:"+rss.getString(2));
 					stuReason.setText("Reason:"+rss.getString(3));
+					ResultSet rs2 = stmt.executeQuery("SELECT * FROM contact_address WHERE address_id ="+ rss.getString(7) +"LIMIT 1");
+					this.rssCon = rs2;
 					while (rssCon.next()) {
 						addressText.setText("House:"+rssCon.getString(2)+" Street:"+rssCon.getString(3)+" City:"+rssCon.getString(4)+" County:"+rssCon.getString(5)+" Postcode:"+rssCon.getString(6));
 					}
 					contactText.setText("Phone:"+rss.getString(8)+"Email:"+rss.getString(9));
+					ResultSet rs3 = stmt.executeQuery("SELECT * FROM courses WHERE course_code ="+ rss.getString(10));
+					this.rssCour = rs3;
 					while(rssQua.next()) {
 						qualificationsText.setText("Institution"+rssQua.getString(3)+"Subject"+rssQua.getString(4)+"Educational_Facility"+rssQua.getString(5)+"Grade"+rssQua.getString(6));
 					}
+					ResultSet rs4 = stmt.executeQuery("SELECT * FROM qualifications WHERE student_id ="+ rss.getInt(1));
+					this.rssQua = rs4;
 					while(rssCour.next()) {
 						courseText.setText("Course Code:"+rssCour.getString(1)+"Course Title:"+rssCour.getString(2));
 					}
+					ResultSet rs5 = stmt.executeQuery("SELECT * FROM attendence WHERE student_id ="+ rss.getInt(1));
+					this.rssAtt = rs5;
 					while(rssAtt.next()) {
 						attendenceText.setText("Currently Unavaliable");
 					}
