@@ -25,6 +25,11 @@ import javafx.scene.control.TextField;
  */
 public class StudentController {
 	public ResultSet rss;
+	public ResultSet rssCon;
+	public ResultSet rssCour;
+	public ResultSet rssQua;
+	public ResultSet rssAtt;
+	
 	@FXML
 	public Label stuName;
 	public Label stuID;
@@ -41,10 +46,26 @@ public class StudentController {
 	public void initalize() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://v.je:3306/EDS", "student", "student");
+			Connection con=DriverManager.getConnection("jdbc:mysql://v.je:3306/groupProjectY2", "student", "student");
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs=stmt.executeQuery("SELECT * FROM students");
+			ResultSet rs=stmt.executeQuery("SELECT * FROM student_records");
+			while (rs.next()) {
+				ResultSet rs2 = stmt.executeQuery("SELECT * FROM contact_address WHERE address_id ="+ rs.getString(7) +"LIMIT 1");
+				this.rssCon = rs2;
+			}
+			while (rs.next()) {
+				ResultSet rs2 = stmt.executeQuery("SELECT * FROM courses WHERE course_code ="+ rs.getString(10));
+				this.rssCour = rs2;
+			}
+			while (rs.next()) {
+				ResultSet rs2 = stmt.executeQuery("SELECT * FROM qualifications WHERE student_id ="+ rs.getInt(1));
+				this.rssQua = rs2;
+			}
+			while (rs.next()) {
+				ResultSet rs2 = stmt.executeQuery("SELECT * FROM attendence WHERE student_id ="+ rs.getInt(1));
+				this.rssAtt = rs2;
+			}
 			this.rss = rs;
 		}catch(Exception e) {System.out.print(e);}
 	}
@@ -54,15 +75,23 @@ public class StudentController {
 		try {
 			while (rss.next()) {
 				if (rss.getInt(2)== search) {
-					stuName.setText("Name:"+rss.getString(1));
-					stuID.setText("ID:"+rss.getInt(2));
-					stuStatus.setText("Status:"+rss.getString(3));
-					stuReason.setText("Reason:"+rss.getString(4));
-					addressText.setText(""+rss.getString(5));
-					contactText.setText(""+rss.getString(6));
-					qualificationsText.setText(""+rss.getString(7));
-					courseText.setText(""+rss.getString(8));
-					attendenceText.setText(""+rss.getString(9));
+					stuName.setText("Name:"+rss.getString(4)+rss.getString(5)+rss.getString(6));
+					stuID.setText("ID:"+rss.getInt(1));
+					stuStatus.setText("Status:"+rss.getString(2));
+					stuReason.setText("Reason:"+rss.getString(3));
+					while (rssCon.next()) {
+						addressText.setText("House:"+rssCon.getString(2)+" Street:"+rssCon.getString(3)+" City:"+rssCon.getString(4)+" County:"+rssCon.getString(5)+" Postcode:"+rssCon.getString(6));
+					}
+					contactText.setText("Phone:"+rss.getString(8)+"Email:"+rss.getString(9));
+					while(rssQua.next()) {
+						qualificationsText.setText("Institution"+rssQua.getString(3)+"Subject"+rssQua.getString(4)+"Educational_Facility"+rssQua.getString(5)+"Grade"+rssQua.getString(6));
+					}
+					while(rssCour.next()) {
+						courseText.setText("Course Code:"+rssCour.getString(1)+"Course Title:"+rssCour.getString(2));
+					}
+					while(rssAtt.next()) {
+						attendenceText.setText("Currently Unavaliable");
+					}
 				}
 				else {
 					stuName.setText("Name: unavailable");
