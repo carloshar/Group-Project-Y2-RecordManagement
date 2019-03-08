@@ -16,9 +16,11 @@ public class SQLTable {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://v.je:3306/groupProjectY2", "student", "student");
 			Statement stmt = con.createStatement();
+			this.stmt = stmt;
 			}catch(Exception e) {
 				
 			}
+		
 		this.table = table;
 	}
 	
