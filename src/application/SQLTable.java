@@ -24,23 +24,63 @@ public class SQLTable {
 		this.table = table;
 	}
 	
+	public void insert(String column1, String column2) {
+		try {
+			stmt.execute("INSERT INTO " + this.table + " VALUES (\"" + column1 + "\", \"" + column2 + "\")");
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+		}
+	}
+	
+	public void insert(String column1, String column2, String column3) {
+		try {
+			stmt.execute("INSERT INTO " + this.table + " VALUES (\"" + column1 + "\", \"" + column2 + "\", \"" + column3 + "\")");
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+		}
+	}
+	
+	public void insert(String column1, String column2, String column3, String column4) {
+		try {
+			stmt.execute("INSERT INTO " + this.table + " VALUES (\"" + column1 + "\", \"" + column2 + "\", \"" + column3 + "\", \"" + column4 + "\")");
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+		}
+	}
+	
+	public void insert(String column1, String column2, String column3, String column4, String column5) {
+		try {
+			stmt.execute("INSERT INTO " + this.table + " VALUES (\"" + column1 + "\", \"" + column2 + "\", \"" + column3 + "\", \"" + column4 + "\", \"" + column5 + "\")");
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+		}
+	}
+	
 	public ResultSet findAll() {
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery("SELECT * FROM "+this.table);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rs;
 	}
 	
-	public ResultSet find(String column,String pk) {
+	public ResultSet findAllWhere(String column, String pk) {
 		ResultSet rs = null;
 		try {
-			rs = stmt.executeQuery("SELECT * FROM "+this.table+"WHERE "+column+" = "+pk);
+			rs = stmt.executeQuery("SELECT * FROM "+this.table+" WHERE "+column+" = \""+pk+"\"");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public ResultSet find(String column) {
+		ResultSet rs = null;
+		try {
+			rs = stmt.executeQuery("SELECT " + column + " FROM " + this.table);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return rs;

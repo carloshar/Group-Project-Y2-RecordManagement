@@ -17,7 +17,8 @@
             <Label layoutX="180.0" layoutY="26.0" prefHeight="28.0" prefWidth="120.0" text="Search for Student:" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="26.0" />
             <TextField fx:id="stuSearch" layoutX="300.0" layoutY="28.0" promptText="Enter student name / ID" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="28.0" />
             <Button layoutX="499.0" layoutY="25.0" mnemonicParsing="false" onAction="#studentSearch" text="Search" />
-            <Button layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#studentSave" prefHeight="31.0" prefWidth="120.0" text="Save" />
+            <Button layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#studentSave" prefHeight="31.0" prefWidth="120.0" text="Save Changes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" />
+            <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#studentAdd" prefHeight="31.0" prefWidth="120.0" text="Add Student" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="14.0" layoutY="194.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
@@ -37,7 +38,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea fx:id="addressText" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="118.0" prefWidth="573.0" promptText="Address information will be displayed here..." />
+                              <TextArea fx:id="addressText" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="118.0" prefWidth="573.0" promptText="Address information will be displayed here..." AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
                            </children></AnchorPane>
                   </content>
                 </Tab>

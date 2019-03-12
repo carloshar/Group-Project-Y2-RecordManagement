@@ -123,8 +123,8 @@ public class StudentController {
 		System.out.println("Saving student");
 	}
 	
-	
-	
-	
+	public void studentAdd() {
+		System.out.println("Adding student");
+	}
 	
 }
