@@ -6,11 +6,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.util.Pair;
 /*
  Column 1 - Name VARCHAR2
  Column 2 - ID INT
@@ -24,12 +26,6 @@ import javafx.scene.control.TextField;
  
  */
 public class StudentController {
-	public ResultSet rss;
-	public ResultSet rssCon;
-	public ResultSet rssCour;
-	public ResultSet rssQua;
-	public ResultSet rssAtt;
-	public Statement stmt;
 	
 	@FXML
 	public Label stuName;
@@ -37,54 +33,63 @@ public class StudentController {
 	public Label stuStatus;
 	public Label stuReason;
 	public TextField stuSearch;
-	public TextArea addressText;
-	public TextArea contactText;
+	public TextField houseText;
+	public TextField streetText;
+	public TextField cityText;
+	public TextField countyText;
+	public TextField postcodeText;
+	public TextField contactPhoneText;
+	public TextField contactEmailText;
+	public TextField courseText;
 	public TextArea qualificationsText;
-	public TextArea courseText;
 	public TextArea attendenceText;
 	
-	
+	PopupInputs dialog = new PopupInputs();
+	SQLTable courseConnection = new SQLTable("courses");
+	SQLTable contactConnection = new SQLTable("contact_address");
+	SQLTable studentConnection = new SQLTable("student_records");
+	SQLTable qualificationConnection = new SQLTable("qualifications");
+	SQLTable attendanceConnection = new SQLTable("total_attendance");
+
 	public void initalize() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://v.je:3306/groupProjectY2", "student", "student");
-			Statement stmt = con.createStatement();
-			this.stmt = stmt;
-			ResultSet rs=stmt.executeQuery("SELECT * FROM student_records");
 			
-			this.rss = rs;
 		}catch(Exception e) {System.out.print(e);}
 	}
 	
 	public void studentSearch() {
-		int search = Integer.valueOf(stuSearch.getText().toString()); 
-		try {
-			while (rss.next()) {
-				if (rss.getInt(2)== search) {
+		int search = Integer.valueOf(stuSearch.getText()); 
+		try { 
+			ResultSet studentResultSet = studentConnection.findAll();
+			while (studentResultSet.next()) {
+				if (studentResultSet.getInt(1) == search) {
 					
-					stuName.setText("Name:"+rss.getString(4)+rss.getString(5)+rss.getString(6));
-					stuID.setText("ID:"+rss.getInt(1));
-					stuStatus.setText("Status:"+rss.getString(2));
-					stuReason.setText("Reason:"+rss.getString(3));
-					ResultSet rs2 = stmt.executeQuery("SELECT * FROM contact_address WHERE address_id ="+ rss.getString(7) +"LIMIT 1");
-					this.rssCon = rs2;
-					while (rssCon.next()) {
-						addressText.setText("House:"+rssCon.getString(2)+" Street:"+rssCon.getString(3)+" City:"+rssCon.getString(4)+" County:"+rssCon.getString(5)+" Postcode:"+rssCon.getString(6));
+					stuName.setText("Name: " + studentResultSet.getString(4) + " " + studentResultSet.getString(5) + " " + studentResultSet.getString(6));
+					stuID.setText("ID:"+studentResultSet.getInt(1));
+					stuStatus.setText("Status:"+studentResultSet.getString(2));
+					stuReason.setText("Reason:"+studentResultSet.getString(3));
+					ResultSet contactResultSet = contactConnection.findAllWhere("address_id", studentResultSet.getString(7));
+					while (contactResultSet.next()) {
+						houseText.setText(contactResultSet.getString(2));
+						streetText.setText(contactResultSet.getString(3));
+						cityText.setText(contactResultSet.getString(4));
+						countyText.setText(contactResultSet.getString(5));
+						postcodeText.setText(contactResultSet.getString(6));
 					}
-					contactText.setText("Phone:"+rss.getString(8)+"Email:"+rss.getString(9));
-					ResultSet rs3 = stmt.executeQuery("SELECT * FROM courses WHERE course_code ="+ rss.getString(10));
-					this.rssCour = rs3;
-					while(rssQua.next()) {
-						qualificationsText.setText("Institution"+rssQua.getString(3)+"Subject"+rssQua.getString(4)+"Educational_Facility"+rssQua.getString(5)+"Grade"+rssQua.getString(6));
+					contactPhoneText.setText(studentResultSet.getString(8));
+					contactEmailText.setText(studentResultSet.getString(9));
+					ResultSet courseResultSet = courseConnection.findAllWhere("course_code", studentResultSet.getString(10));
+					ResultSet qualificationResultSet = qualificationConnection.findAllWhere("student_id", studentResultSet.getInt(1));
+					while(qualificationResultSet.next()) {
+						qualificationsText.setText("Institution"+qualificationResultSet.getString(3)+"Subject"+qualificationResultSet.getString(4)+"Educational_Facility"+qualificationResultSet.getString(5)+"Grade"+qualificationResultSet.getString(6));
 					}
-					ResultSet rs4 = stmt.executeQuery("SELECT * FROM qualifications WHERE student_id ="+ rss.getInt(1));
-					this.rssQua = rs4;
-					while(rssCour.next()) {
-						courseText.setText("Course Code:"+rssCour.getString(1)+"Course Title:"+rssCour.getString(2));
+					while(courseResultSet.next()) {
+						courseText.setText(courseResultSet.getString(1) + " - " + courseResultSet.getString(2));
 					}
-					ResultSet rs5 = stmt.executeQuery("SELECT * FROM attendence WHERE student_id ="+ rss.getInt(1));
-					this.rssAtt = rs5;
-					while(rssAtt.next()) {
+					ResultSet attendanceResultSet = attendanceConnection.findAllWhere("student_id", studentResultSet.getInt(1));
+					while(attendanceResultSet.next()) {
 						attendenceText.setText("Currently Unavaliable");
 					}
 				}
@@ -93,8 +98,13 @@ public class StudentController {
 					stuID.setText("ID: unavailable");
 					stuStatus.setText("Status: unavailable");
 					stuReason.setText("Reason: unavailable");
-					addressText.setText("Address: Unavailable");
-					contactText.setText("Contact Information: Unavailable");
+					houseText.setText("Address: Unavailable");
+					streetText.setText("Address: Unavailable");
+					cityText.setText("Address: Unavailable");
+					countyText.setText("Address: Unavailable");
+					postcodeText.setText("Address: Unavailable");
+					contactEmailText.setText("Contact Information: Unavailable");
+					contactPhoneText.setText("Contact Information: Unavailable");
 					qualificationsText.setText("Qualifications: Unavailable");
 					courseText.setText("Course Detils: Unavailable");
 					attendenceText.setText("Attendence: Unavailable");
@@ -108,15 +118,17 @@ public class StudentController {
 			stuID.setText("ID: unavailable");
 			stuStatus.setText("Status: unavailable");
 			stuReason.setText("Reason: unavailable");
-			addressText.setText("Address: Unavailable");
-			contactText.setText("Contact Information: Unavailable");
+			houseText.setText("Address: Unavailable");
+			streetText.setText("Address: Unavailable");
+			cityText.setText("Address: Unavailable");
+			countyText.setText("Address: Unavailable");
+			postcodeText.setText("Address: Unavailable");
+			contactEmailText.setText("Contact Information: Unavailable");
+			contactPhoneText.setText("Contact Information: Unavailable");
 			qualificationsText.setText("Qualifications: Unavailable");
 			courseText.setText("Course Detils: Unavailable");
 			attendenceText.setText("Attendence: Unavailable");
 		}
-		
-		
-		
 	}
 	
 	public void studentSave() {
@@ -124,7 +136,31 @@ public class StudentController {
 	}
 	
 	public void studentAdd() {
-		System.out.println("Adding student");
+		String[] textFieldNames = {"Firstname", "Middle Name", "Surname", "House", "Street", "City", "County", "Postcode", "Contact Phone", "Email"};
+		
+		ResultSet courseResultSet = courseConnection.findAll();
+		
+		ArrayList<String> courseArrayList = new ArrayList<String>();
+		
+		try {
+			while (courseResultSet.next()) {
+				courseArrayList.add(courseResultSet.getString(1) + "-" + courseResultSet.getString(2));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+		}
+		
+		String[] courseList = new String[courseArrayList.size()];
+		
+		for (int i = 0; i<courseArrayList.size(); i++) {
+			courseList[i] = courseArrayList.get(i);
+		}
+		
+		Pair<String, String[]> coursePair = new Pair<String, String[]>("Course", courseList);
+		ArrayList<String> studentDetail = dialog.inputDialog("Add a Student", "Add a Student", "Add", textFieldNames, null, coursePair);
+		
+		if (studentDetail.size() == 11) {
+			studentConnection.insertStudent(studentDetail.get(0), studentDetail.get(1), studentDetail.get(2), studentDetail.get(3), studentDetail.get(4), studentDetail.get(5), studentDetail.get(6), studentDetail.get(7), studentDetail.get(8), studentDetail.get(9), studentDetail.get(10).split("-")[0]);
+		}
 	}
-	
 }

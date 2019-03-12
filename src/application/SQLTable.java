@@ -56,6 +56,21 @@ public class SQLTable {
 		}
 	}
 	
+	public void insertStudent(String column1, String column2, String column3, String column4, String column5, String column6, String column7, String column8, String column9, String column10, String column11) {
+		try {
+			stmt.execute("INSERT INTO contact_address (house, street, city, county, postcode) VALUES (\"" + column4 + "\", \"" + column5 + "\", \"" + column6 + "\", \"" + column7 + "\", \"" + column8 + "\")");
+			ResultSet rs = stmt.executeQuery("SELECT address_id FROM contact_address WHERE house = \"" + column4 + "\" && street = \"" + column5 + "\" && city = \"" + column6 + "\" && county = \"" + column7 + "\" && postcode = \"" + column8 + "\"");
+			int address_id = 0;
+			while (rs.next()) {
+				address_id = rs.getInt(1);
+			}
+			stmt.execute("INSERT INTO student_records (firstname, middle_name, surname, address_id, contact_phone, contact_email, course_code) VALUES (\"" + column1 + "\", \"" + column2 + "\", \"" + column3 + "\", " + address_id + ", \"" + column9 + "\", \"" + column10 + "\", \"" + column11 + "\")");
+		} catch (SQLException e) {
+			System.out.println("Error: " + e);
+			e.printStackTrace();
+		}
+	}
+	
 	public ResultSet findAll() {
 		ResultSet rs = null;
 		try {
@@ -86,10 +101,10 @@ public class SQLTable {
 		return rs;
 	}
 	
-	public ResultSet find(String column, int pk) {
+	public ResultSet findAllWhere(String column, int pk) {
 		ResultSet rs = null;
 		try {
-			rs = stmt.executeQuery("SELECT * FROM "+this.table+"WHERE "+column+" = "+pk);
+			rs = stmt.executeQuery("SELECT * FROM " + this.table + " WHERE " + column + " = " + pk);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
