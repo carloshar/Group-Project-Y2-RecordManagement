@@ -9,15 +9,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
@@ -26,6 +31,7 @@ public class PopupInputs {
 	public GridPane grid = new GridPane();
 	public ChoiceBox<String> choice1 = new ChoiceBox<String>();
 	public ChoiceBox<String> choice2 = new ChoiceBox<String>();
+	String viewID = "";
 	
 	private ChoiceBox<String> populateChoiceBox(ArrayList<String> data) {
 		ChoiceBox<String> choiceBox = new ChoiceBox<String>(
@@ -57,6 +63,101 @@ public class PopupInputs {
 		choice2 = populateChoiceBox(set2); 
 		grid.add(choice1, 1, 1);
 		grid.add(choice2, 4, 1);
+	}
+	
+	private void setId(String id) {
+		viewID = id;
+	}
+	
+	public String displayStudents(String studentName, SQLTable connection) {
+		try {
+			ResultSet studentSet = connection.findAllWhere("firstname", studentName);
+			Dialog<ArrayList<String>> dialog = new Dialog<ArrayList<String>>();
+			dialog.setTitle("Search Results");
+			dialog.setHeaderText("Results for students called " + studentName);
+			
+			ButtonType selectButtonType = new ButtonType("View Selected");
+			
+			dialog.getDialogPane().getButtonTypes().addAll(selectButtonType, ButtonType.CANCEL);
+			
+			ArrayList<Label> studentIDList = new ArrayList<Label>();
+			ArrayList<Label> studentNameList = new ArrayList<Label>();
+			ArrayList<Button> studentButtonList = new ArrayList<Button>();
+			ArrayList<RadioButton> studentRadioButtonList = new ArrayList<RadioButton>();
+			
+			GridPane layout = new GridPane();
+			layout.setHgap(10);
+			layout.setVgap(10);
+			layout.setPadding(new Insets(20, 150, 10, 10));
+			
+			final ToggleGroup selectedStudent = new ToggleGroup();
+			
+			int index = 0;
+			while (studentSet.next()) {
+				Label id = new Label(studentSet.getString(1));
+				studentIDList.add(id);
+				Label name = new Label(studentSet.getString(4));
+				studentNameList.add(name);
+				Button search = new Button("Select");
+				
+				search.setOnAction(new EventHandler<ActionEvent>() {
+				    @Override public void handle(ActionEvent e) {
+				        Button source = (Button) e.getSource();
+				    	for (int x = 0; x < studentRadioButtonList.size(); x++) {
+				    		if (studentRadioButtonList.get(x).getId().equals(source.getId())) {
+				    			studentRadioButtonList.get(x).setSelected(true);
+				    		}
+				    	}
+				        setId(source.getId());
+				    }
+				});
+				
+				search.setId(id.getText());
+				studentButtonList.add(search);
+				RadioButton selectedRB = new RadioButton();
+				selectedRB.setToggleGroup(selectedStudent);
+				selectedRB.setId(id.getText());
+				selectedRB.setMouseTransparent(true);
+				studentRadioButtonList.add(selectedRB);
+				layout.add(id, 0, index);
+				layout.add(name, 1, index);
+				layout.add(search, 2, index);
+				layout.add(selectedRB, 3, index);
+				index++;
+			}
+			
+			dialog.getDialogPane().setContent(layout);
+			
+			dialog.setResultConverter(dialogButton -> {
+			    if (dialogButton == selectButtonType) {
+					if (!viewID.equals("")) {
+				    	ArrayList<String> dataExtract = new ArrayList<String>();
+				    	dataExtract.add(0, viewID);
+				    	
+				        return dataExtract;
+					} else {
+						return null;
+					}
+			    } else {
+			    	return null;
+			    }
+			});
+
+			
+			Optional<ArrayList<String>> result = dialog.showAndWait();
+			ArrayList<String> idList = new ArrayList<String>();
+			
+			result.ifPresent(details -> {
+				idList.add(details.get(0));
+			});
+
+			return idList.get(0);
+			
+			
+		} catch (Exception e) {
+		}
+		return null;
+		
 	}
 	
 	public Pair<String, String> twinPairDropBox(String title, String promptText, String[] labelLabels, Pair<String, SQLTable> table1, Pair<String, SQLTable> table2) {

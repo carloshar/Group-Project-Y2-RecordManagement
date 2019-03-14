@@ -15,12 +15,11 @@
    <children>
       <AnchorPane layoutX="78.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" prefWidth="200.0" AnchorPane.bottomAnchor="320.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="180.0" layoutY="45.0" prefHeight="28.0" prefWidth="120.0" text="Search for Student:" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="45.0" />
-            <TextField fx:id="stuSearch" layoutX="300.0" layoutY="46.0" promptText="Enter student ID" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="46.0" />
-            <Button layoutX="497.0" layoutY="43.0" mnemonicParsing="false" onAction="#studentSearch" prefHeight="31.0" text="Search" AnchorPane.rightAnchor="51.0" AnchorPane.topAnchor="43.0" />
+            <Label layoutX="180.0" layoutY="26.0" prefHeight="28.0" prefWidth="120.0" text="Search for Student:" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="26.0" />
+            <TextField fx:id="stuSearch" layoutX="300.0" layoutY="29.0" promptText="Enter student Name / ID" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="29.0" />
+            <Button layoutX="494.0" layoutY="26.0" mnemonicParsing="false" onAction="#studentSearch" prefHeight="31.0" text="Search" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="26.0" />
             <Button layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#studentSave" prefHeight="31.0" prefWidth="120.0" text="Save Changes" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="14.0" />
             <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#studentAdd" prefHeight="31.0" prefWidth="120.0" text="Add Student" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0" />
-            <Button layoutX="467.0" layoutY="10.0" mnemonicParsing="false" onAction="#showAllStudents" prefHeight="31.0" text="Show All Students" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="14.0" layoutY="194.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">

@@ -55,15 +55,23 @@ public class StudentController implements Initializable {
 	public TextArea attendenceText;
 	
 	PopupInputs dialog = new PopupInputs();
-	SQLTable courseConnection = new SQLTable("courses");
-	SQLTable contactConnection = new SQLTable("contact_address");
-	SQLTable studentConnection = new SQLTable("student_records");
-	SQLTable qualificationConnection = new SQLTable("qualifications");
-	SQLTable attendanceConnection = new SQLTable("total_attendance");
+	
+	SQLTable courseConnection;
+	SQLTable contactConnection;
+	SQLTable studentConnection;
+	SQLTable qualificationConnection;
+	SQLTable attendanceConnection;
+	SQLTable studentAccountConnection;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			this.courseConnection = new SQLTable("courses");
+			this.contactConnection = new SQLTable("contact_address");
+			this.studentConnection = new SQLTable("student_records");
+			this.qualificationConnection = new SQLTable("qualifications");
+			this.attendanceConnection = new SQLTable("total_attendance");
+			this.studentAccountConnection = new SQLTable("student_accounts");
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			ResultSet courseSet = courseConnection.findAll();
 			ArrayList<String> courses = new ArrayList<String>();
@@ -82,80 +90,94 @@ public class StudentController implements Initializable {
 	public void studentSearch() {
 		emailConformationLabel.setText("");
 		if (!stuSearch.getText().equals("")) {
-			int search = Integer.valueOf(stuSearch.getText()); 
-			try { 
-				ResultSet studentResultSet = studentConnection.findAll();
-				while (studentResultSet.next()) {
-					if (studentResultSet.getInt(1) == search) {
-						
-						stuFirstName.setText(studentResultSet.getString(4));
-						stuMiddleName.setText(studentResultSet.getString(5));
-						stuSurname.setText(studentResultSet.getString(6));
-						stuID.setText("Student ID:"+studentResultSet.getInt(1));
-						stuStatus.setValue(studentResultSet.getString(2));
-						stuReason.setValue(studentResultSet.getString(3));
-						ResultSet contactResultSet = contactConnection.findAllWhere("address_id", studentResultSet.getString(7));
-						while (contactResultSet.next()) {
-							houseText.setText(contactResultSet.getString(2));
-							streetText.setText(contactResultSet.getString(3));
-							cityText.setText(contactResultSet.getString(4));
-							countyText.setText(contactResultSet.getString(5));
-							postcodeText.setText(contactResultSet.getString(6));
+			try {
+				int search = Integer.valueOf(stuSearch.getText()); 
+				try { 
+					ResultSet studentResultSet = studentConnection.findAll();
+					while (studentResultSet.next()) {
+						if (studentResultSet.getInt(1) == search) {
+							
+							stuFirstName.setText(studentResultSet.getString(4));
+							stuMiddleName.setText(studentResultSet.getString(5));
+							stuSurname.setText(studentResultSet.getString(6));
+							stuID.setText("Student ID:"+studentResultSet.getInt(1));
+							stuStatus.setValue(studentResultSet.getString(2));
+							stuReason.setValue(studentResultSet.getString(3));
+							ResultSet contactResultSet = contactConnection.findAllWhere("address_id", studentResultSet.getString(7));
+							while (contactResultSet.next()) {
+								houseText.setText(contactResultSet.getString(2));
+								streetText.setText(contactResultSet.getString(3));
+								cityText.setText(contactResultSet.getString(4));
+								countyText.setText(contactResultSet.getString(5));
+								postcodeText.setText(contactResultSet.getString(6));
+							}
+							contactPhoneText.setText(studentResultSet.getString(8));
+							contactEmailText.setText(studentResultSet.getString(9));
+							ResultSet courseResultSet = courseConnection.findAllWhere("course_code", studentResultSet.getString(10));
+							ResultSet qualificationResultSet = qualificationConnection.findAllWhere("student_id", studentResultSet.getInt(1));
+							while(qualificationResultSet.next()) {
+								qualificationsText.setText("Institution"+qualificationResultSet.getString(3)+"Subject"+qualificationResultSet.getString(4)+"Educational_Facility"+qualificationResultSet.getString(5)+"Grade"+qualificationResultSet.getString(6));
+							}
+							while(courseResultSet.next()) {
+								courseText.setValue(courseResultSet.getString(1) + " - " + courseResultSet.getString(2));
+							}
+							ResultSet attendanceResultSet = attendanceConnection.findAllWhere("student_id", studentResultSet.getInt(1));
+							while(attendanceResultSet.next()) {
+								attendenceText.setText("Currently Unavaliable");
+							}
+							ResultSet studentAccountResultSet = studentAccountConnection.findAllWhere("student_id", studentResultSet.getInt(1));
+							while(studentAccountResultSet.next()) {
+								usernameText.setText(studentAccountResultSet.getString(2));
+							}
 						}
-						contactPhoneText.setText(studentResultSet.getString(8));
-						contactEmailText.setText(studentResultSet.getString(9));
-						ResultSet courseResultSet = courseConnection.findAllWhere("course_code", studentResultSet.getString(10));
-						ResultSet qualificationResultSet = qualificationConnection.findAllWhere("student_id", studentResultSet.getInt(1));
-						while(qualificationResultSet.next()) {
-							qualificationsText.setText("Institution"+qualificationResultSet.getString(3)+"Subject"+qualificationResultSet.getString(4)+"Educational_Facility"+qualificationResultSet.getString(5)+"Grade"+qualificationResultSet.getString(6));
-						}
-						while(courseResultSet.next()) {
-							courseText.setValue(courseResultSet.getString(1) + " - " + courseResultSet.getString(2));
-						}
-						ResultSet attendanceResultSet = attendanceConnection.findAllWhere("student_id", studentResultSet.getInt(1));
-						while(attendanceResultSet.next()) {
-							attendenceText.setText("Currently Unavaliable");
+						else {
+							stuFirstName.setText("Name: Unavailable");
+							stuMiddleName.setText("Name: Unavailable");
+							stuSurname.setText("Name: Unavailable");
+							stuID.setText("Student ID: unavailable");
+							stuStatus.setValue("N/A");
+							stuReason.setValue("N/A");
+							houseText.setText("Address: Unavailable");
+							streetText.setText("Address: Unavailable");
+							cityText.setText("Address: Unavailable");
+							countyText.setText("Address: Unavailable");
+							postcodeText.setText("Address: Unavailable");
+							contactEmailText.setText("Contact Information: Unavailable");
+							contactPhoneText.setText("Contact Information: Unavailable");
+							qualificationsText.setText("Qualifications: Unavailable");
+							courseText.setValue("Course Detils: Unavailable");
+							attendenceText.setText("Attendence: Unavailable");
+							usernameText.setText("Username: Unavailable");
+							
 						}
 					}
-					else {
-						stuFirstName.setText("Name: Unavailable");
-						stuMiddleName.setText("Name: Unavailable");
-						stuSurname.setText("Name: Unavailable");
-						stuID.setText("Student ID: unavailable");
-						stuStatus.setValue("N/A");
-						stuReason.setValue("N/A");
-						houseText.setText("Address: Unavailable");
-						streetText.setText("Address: Unavailable");
-						cityText.setText("Address: Unavailable");
-						countyText.setText("Address: Unavailable");
-						postcodeText.setText("Address: Unavailable");
-						contactEmailText.setText("Contact Information: Unavailable");
-						contactPhoneText.setText("Contact Information: Unavailable");
-						qualificationsText.setText("Qualifications: Unavailable");
-						courseText.setValue("Course Detils: Unavailable");
-						attendenceText.setText("Attendence: Unavailable");
-						
-					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					stuFirstName.setText("Name: Unavailable");
+					stuMiddleName.setText("Name: Unavailable");
+					stuSurname.setText("Name: Unavailable");
+					stuID.setText("Student ID: unavailable");
+					stuStatus.setValue("N/A");
+					stuReason.setValue("N/A");
+					houseText.setText("Address: Unavailable");
+					streetText.setText("Address: Unavailable");
+					cityText.setText("Address: Unavailable");
+					countyText.setText("Address: Unavailable");
+					postcodeText.setText("Address: Unavailable");
+					contactEmailText.setText("Contact Information: Unavailable");
+					contactPhoneText.setText("Contact Information: Unavailable");
+					qualificationsText.setText("Qualifications: Unavailable");
+					courseText.setValue("Course Detils: Unavailable");
+					attendenceText.setText("Attendence: Unavailable");
+					usernameText.setText("Username: Unavailable");
 				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				stuFirstName.setText("Name: Unavailable");
-				stuMiddleName.setText("Name: Unavailable");
-				stuSurname.setText("Name: Unavailable");
-				stuID.setText("Student ID: unavailable");
-				stuStatus.setValue("N/A");
-				stuReason.setValue("N/A");
-				houseText.setText("Address: Unavailable");
-				streetText.setText("Address: Unavailable");
-				cityText.setText("Address: Unavailable");
-				countyText.setText("Address: Unavailable");
-				postcodeText.setText("Address: Unavailable");
-				contactEmailText.setText("Contact Information: Unavailable");
-				contactPhoneText.setText("Contact Information: Unavailable");
-				qualificationsText.setText("Qualifications: Unavailable");
-				courseText.setValue("Course Detils: Unavailable");
-				attendenceText.setText("Attendence: Unavailable");
+			} catch (NumberFormatException e) {
+				String studentChosen = dialog.displayStudents(stuSearch.getText(), studentConnection);
+				if (!studentChosen.equals("null")) {
+					stuSearch.setText(studentChosen);
+					studentSearch();
+				}
 			}
 		}
 	}
@@ -168,10 +190,6 @@ public class StudentController implements Initializable {
 		studentConnection.updateStudent(stuID.getText().split(":")[1], stuFirstName.getText(), stuMiddleName.getText(), stuSurname.getText(), houseText.getText(), streetText.getText(), cityText.getText(), countyText.getText(), postcodeText.getText(), contactPhoneText.getText(), contactEmailText.getText(), courseText.getValue().split(" - ")[0]);
 		studentConnection.updateStudentStatus(stuID.getText().split(":")[1], stuStatus.getValue(), stuReason.getValue());
 		
-	}
-	
-	public void showAllStudents() {
-		System.out.println("All students");
 	}
 	
 	public void studentAdd() {
