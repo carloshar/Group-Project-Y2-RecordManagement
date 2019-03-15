@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,8 +22,14 @@ public class TimetableController {
 	@FXML private TableColumn<Timetable, String> wednesdayColumn;
 	@FXML private TableColumn<Timetable, String> thursdayColumn;
 	@FXML private TableColumn<Timetable, String> fridayColumn;
-	@FXML private TableColumn<Timetable, String> saturdayColumn;
-	@FXML private TableColumn<Timetable, String> sundayColumn;
+	@FXML private TableColumn<Timetable, Button> courseTimetableSearch;
+	
+	@FXML private ChoiceBox courseSelect;
+	
+	@FXML
+	public void courseTimetableSearch() {
+		System.out.println("Search");
+	}
 	
 	@FXML
 	protected void initialize()  {
@@ -36,16 +44,14 @@ public class TimetableController {
 		wednesdayColumn.setCellValueFactory(new PropertyValueFactory<Timetable, String>("wednesdaySlot"));
 		thursdayColumn.setCellValueFactory(new PropertyValueFactory<Timetable, String>("thursdaySlot"));
 		fridayColumn.setCellValueFactory(new PropertyValueFactory<Timetable, String>("fridaySlot"));
-		saturdayColumn.setCellValueFactory(new PropertyValueFactory<Timetable, String>("saturdaySlot"));
-		sundayColumn.setCellValueFactory(new PropertyValueFactory<Timetable, String>("sundaySlot"));
 		
 		//2D array that should contain all of the data to display in the table
 		String[][] dataArray = new String[][] {
-			{"CSY2028", "", "CSY2003", "", "", "CSY2001", "CSY2016"}, 
-			{"CSY2006", "", "", "", "", "CSY2001", "CSY1026"}, 
-			{"", "CSY2003", "", "CSY2016", "", "", ""}, 
-			{"", "", "", "", "", "CSY2001", "CSY2028"}, 
-			{"CSY2001", "", "CSY2016", "", "", "", "CSY2028"}
+			{"CSY2028", "", "CSY2003", "", ""}, 
+			{"CSY2006", "", "", "", ""}, 
+			{"", "CSY2003", "", "CSY2016", ""}, 
+			{"", "", "", "", ""}, 
+			{"CSY2001", "", "CSY2016", "", ""}
 		};
 		
 		courseTable.getItems().setAll(getData(dataArray));
@@ -74,8 +80,6 @@ public class TimetableController {
 		private final String wednesdaySlot;
 		private final String thursdaySlot;
 		private final String fridaySlot;
-		private final String saturdaySlot;
-		private final String sundaySlot;
 		
 		private Timetable(String time, String[] timetableSlots) {
 			this.time = new String(time);
@@ -84,8 +88,6 @@ public class TimetableController {
 			this.wednesdaySlot = new String(timetableSlots[2]);
 			this.thursdaySlot = new String(timetableSlots[3]);
 			this.fridaySlot = new String(timetableSlots[4]);
-			this.saturdaySlot = new String(timetableSlots[5]);
-			this.sundaySlot = new String(timetableSlots[6]);
 		}
 		
 		public String getTime() {
@@ -110,14 +112,6 @@ public class TimetableController {
 		
 		public String getFridaySlot() {
 			return fridaySlot;
-		}
-		
-		public String getSaturdaySlot() {
-			return saturdaySlot;
-		}
-		
-		public String getSundaySlot() {
-			return sundaySlot;
 		}
 	}
 }
