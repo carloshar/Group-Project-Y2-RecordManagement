@@ -13,6 +13,7 @@ public class SQLTable {
 	
 	public SQLTable(String table) {
 		try {
+			DriverManager.setLoginTimeout(1);
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://v.je:3306/groupProjectY2", "student", "student");
 			Statement stmt = con.createStatement();

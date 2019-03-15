@@ -55,15 +55,22 @@ public class StudentController implements Initializable {
 	public TextArea attendenceText;
 	
 	PopupInputs dialog = new PopupInputs();
-	SQLTable courseConnection = new SQLTable("courses");
-	SQLTable contactConnection = new SQLTable("contact_address");
-	SQLTable studentConnection = new SQLTable("student_records");
-	SQLTable qualificationConnection = new SQLTable("qualifications");
-	SQLTable attendanceConnection = new SQLTable("total_attendance");
+	
+	SQLTable courseConnection;
+	SQLTable contactConnection;
+	SQLTable studentConnection;
+	SQLTable qualificationConnection;
+	SQLTable attendanceConnection;
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			this.courseConnection = new SQLTable("courses");
+			this.contactConnection = new SQLTable("contact_address");
+			this.studentConnection = new SQLTable("student_records");
+			this.qualificationConnection = new SQLTable("qualifications");
+			this.attendanceConnection = new SQLTable("total_attendance");
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			ResultSet courseSet = courseConnection.findAll();
 			ArrayList<String> courses = new ArrayList<String>();
